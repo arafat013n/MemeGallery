@@ -1,15 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    
     <style>
-        /* Add your styles here */
-        .meme-card {
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .gallery-container {
+            margin-top: 20px;
+        }
+        .gallery-image {
+            width: 100%;
+            max-height: 400px; /* Set max height for images */
+            border-radius: 0.25rem;
+            margin-bottom: 10px;
+        }
+        .download-button {
             margin-bottom: 20px;
         }
     </style>
+    
     <title>Meme Gallery</title>
 </head>
 <body>
@@ -21,59 +35,136 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home</a>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Home <i class="your-icon-class"></i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="upload.html">Upload Meme</a>
+                <a class="nav-link" href="#">Upload Meme <i class="your-icon-class"></i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">About</a>
+                <a class="nav-link" href="#">About <i class="your-icon-class"></i></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="login.html">Login/Signup</a>
+            <li class="nav-item" id="loginNavItem">
+                <a class="nav-link" href="login.html">Login <i class="your-icon-class"></i></a>
+            </li>
+            <li class="nav-item" id="profileNavItem" style="display: none;">
+                <a class="nav-link" href="#">Profile <i class="your-icon-class"></i></a>
             </li>
         </ul>
     </div>
 </nav>
 
-<div class="container">
-    <div class="row" id="gallery">
-        <!-- Meme images will be displayed here dynamically -->
-    </div>
+<div class="container gallery-container">
+    <h2 class="text-center mb-4">Meme Gallery</h2>
+    <div id="imageGallery" class="text-center"></div>
+    <button id="loadMoreBtn" class="btn btn-primary" style="display: none;">Load More</button>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
-    $(document).ready(function () {
-        // Fetch free images from Lorem Picsum
-        $.ajax({
-            url: 'https://picsum.photos/v2/list?page=1&limit=10',
-            method: 'GET',
-            success: function (data) {
-                // Populate the gallery with meme images
-                data.forEach(item => {
-                    const imageUrl = item.download_url;
-                    const cardHtml = `
-                        <div class="col-md-4 meme-card">
-                            <div class="card">
-                                <img src="${imageUrl}" class="card-img-top img-fluid meme-img" alt="Meme Image">
-                                <div class="card-body">
-                                    <a href="${imageUrl}" download="meme.jpg" class="btn btn-primary btn-block">Download JPG</a>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    $('#gallery').append(cardHtml);
+
+<!-- Firebase configuration and storage -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getStorage, ref, listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
+    const firebaseConfig = {
+  apiKey: "AIzaSyBVAg2Im_sN0oFDdOd9FOuVz0x8nPDVWDI",
+  authDomain: "meme-gallery-akash.firebaseapp.com",
+  projectId: "meme-gallery-akash",
+  storageBucket: "meme-gallery-akash.appspot.com",
+  messagingSenderId: "825150510578",
+  appId: "1:825150510578:web:5a7362613275a07b9b076b",
+  measurementId: "G-VFEXKK0CEZ"
+};
+
+
+
+    const app = initializeApp(firebaseConfig);
+    const storage = getStorage();
+    const imageGallery = document.getElementById('imageGallery');
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    const loginNavItem = document.getElementById('loginNavItem');
+    const profileNavItem = document.getElementById('profileNavItem');
+    let lastVisible = null;
+
+    // Simulating login status, replace with your authentication logic
+    const isLoggedIn = true;
+
+    // Fetch images function
+    function fetchImages() {
+        const storageRef = ref(storage, 'meme_images');
+        const query = listAll(storageRef, { maxResults: 20, startAfter: lastVisible });
+        
+        query
+            .then((result) => {
+                result.items.forEach((item) => {
+                    getDownloadURL(item)
+                        .then((url) => {
+                            const imgElement = document.createElement('img');
+                            imgElement.src = url;
+                            imgElement.alt = 'Meme Image';
+                            imgElement.classList.add('gallery-image');
+
+                            const downloadButton = document.createElement('button');
+                            downloadButton.classList.add('btn', 'btn-primary', 'download-button');
+                            downloadButton.innerHTML = 'Download';
+                            downloadButton.addEventListener('click', function () {
+                                downloadImage(url, getFileName(item.name));
+                            });
+
+                            imageGallery.appendChild(imgElement);
+                            imageGallery.appendChild(downloadButton);
+                        })
+                        .catch((error) => {
+                            console.error('Error getting download URL:', error.message);
+                        });
                 });
-            },
-            error: function (error) {
-                console.log('Error fetching images:', error);
-            }
-        });
-    });
+
+                lastVisible = result.items[result.items.length - 1];
+
+                // Show or hide "Load More" button based on remaining images
+                if (result.items.length === 20) {
+                    loadMoreBtn.style.display = 'block';
+                } else {
+                    loadMoreBtn.style.display = 'none';
+                }
+            })
+            .catch((error) => {
+                console.error('Error listing images:', error.message);
+            });
+    }
+
+    // Load more button click event
+    loadMoreBtn.addEventListener('click', fetchImages);
+
+    // Initial fetch
+    fetchImages();
+
+    // Update navigation based on login status
+    if (isLoggedIn) {
+        loginNavItem.style.display = 'none';  // Hide login
+        profileNavItem.style.display = 'block';  // Show profile
+    } else {
+        loginNavItem.style.display = 'block';  // Show login
+        profileNavItem.style.display = 'none';  // Hide profile
+    }
+
+    // Function to get file name with date-time format
+    function getFileName(fileName) {
+        const currentDate = new Date().toISOString().replace(/[-:]/g, "");
+        const fileExtension = fileName.split('.').pop();
+        return `${currentDate}.${fileExtension}`;
+    }
+
+    // Function to trigger image download
+    function downloadImage(url, fileName) {
+        const anchor = document.createElement('a');
+        anchor.href = url;
+        anchor.download = fileName;
+        anchor.click();
+    }
 </script>
 
 </body>
