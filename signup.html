@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <title>Meme Gallery - Signup</title>
+  <title>Signup To Meme Gallery</title>
 
   <style>
     body {
@@ -46,7 +46,6 @@
       padding: 10px;
       cursor: pointer;
       width: 100%;
-      /* Make the button full-width */
     }
 
     button.btn-primary:hover {
@@ -59,11 +58,10 @@
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">Meme Gallery</a>
-    <!-- You can add more navigation items if needed -->
   </nav>
 
   <div class="container">
-    <h2 class="text-center mb-4">Signup to Meme Gallery</h2>
+    <h2 class="text-center mb-4">Signup To Meme Gallery</h2>
     <form id="signupForm">
       <div class="form-group">
         <label for="name">Name</label>
@@ -117,7 +115,7 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth();
 
-    async function signup() {
+    window.signup = async function () {
       const name = document.getElementById('name').value;
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
@@ -128,20 +126,17 @@
       const signInMethods = await fetchSignInMethodsForEmail(auth, email);
 
       if (signInMethods.length > 0) {
-        // Email already exists, show a popup/notification
         alert('Email already exists. Please use a different email.');
         return;
       }
 
       // Continue with account creation if email is not found and other conditions are met
       if (password !== confirmPassword) {
-        // Passwords do not match, show a popup/notification
         alert('Passwords do not match. Please check your password.');
         return;
       }
 
       if (!acceptTerms) {
-        // Terms and conditions not accepted, show a popup/notification
         alert('Please accept the terms and conditions.');
         return;
       }
@@ -149,12 +144,11 @@
       // Continue with account creation
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          // Handle successful signup
           console.log('User signed up:', userCredential.user);
-          // You can redirect the user to a different page or perform additional actions here
+          // Redirect to login page with email
+          window.location.href = `login.html?email=${encodeURIComponent(email)}`;
         })
         .catch((error) => {
-          // Handle errors during signup
           console.error('Signup error:', error.message);
         });
     }
