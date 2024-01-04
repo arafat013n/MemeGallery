@@ -1,64 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-y5o6v0MlaR6FtHF8XxMme6fKlRfusZDkQ5tr5dNesAa0IePLZ6eL7XaVARM92ng8" crossorigin="anonymous">
-    
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .login-container {
-            margin-top: 100px;
-        }
-    </style>
-    
-    <title>Login to Meme Gallery</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-y5o6v0MlaR6FtHF8XxMme6fKlRfusZDkQ5tr5dNesAa0IePLZ6eL7XaVARM92ng8" crossorigin="anonymous">
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .login-container {
+      margin-top: 100px;
+    }
+  </style>
+
+  <title>Login to Meme Gallery</title>
 </head>
+
 <body>
 
-<div class="container login-container">
+  <div class="container login-container">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h2 class="text-center"><i class="fas fa-sign-in-alt"></i> Login to Meme Gallery</h2>
-                    <form id="loginForm">
-                        <div class="form-group">
-                            <label for="inputEmail"><i class="fas fa-at"></i> User Email</label>
-                            <input type="email" class="form-control" id="inputEmail" placeholder="Enter your email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputPassword"><i class="fas fa-key"></i> Password</label>
-                            <input type="password" class="form-control" id="inputPassword" placeholder="Enter your password" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-sign-in-alt"></i> Login</button>
-                    </form>
-                    <p class="text-center mt-3">Don't have an account? <a href="signup.html">Signup now</a></p>
-                </div>
-            </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="text-center"><i class="fas fa-sign-in-alt"></i> Login to Meme Gallery</h2>
+            <form id="loginForm">
+              <div class="form-group">
+                <label for="inputEmail"><i class="fas fa-at"></i> User Email</label>
+                <input type="email" class="form-control" id="inputEmail" placeholder="Enter your email" required>
+              </div>
+              <div class="form-group">
+                <label for="inputPassword"><i class="fas fa-key"></i> Password</label>
+                <input type="password" class="form-control" id="inputPassword" placeholder="Enter your password" required>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-sign-in-alt"></i> Login</button>
+            </form>
+            <p class="text-center mt-3">Don't have an account? <a href="signup.html">Signup now</a></p>
+          </div>
         </div>
+      </div>
     </div>
-</div>
+  </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<!-- Firebase configuration -->
-<script type="module">
+  <!-- Firebase configuration -->
+  <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
     const firebaseConfig = {
-  apiKey: "AIzaSyBVAg2Im_sN0oFDdOd9FOuVz0x8nPDVWDI",
-  authDomain: "meme-gallery-akash.firebaseapp.com",
-  projectId: "meme-gallery-akash",
-  storageBucket: "meme-gallery-akash.appspot.com",
-  messagingSenderId: "825150510578",
-  appId: "1:825150510578:web:5a7362613275a07b9b076b",
-  measurementId: "G-VFEXKK0CEZ"
-};
+      apiKey: "AIzaSyBVAg2Im_sN0oFDdOd9FOuVz0x8nPDVWDI",
+      authDomain: "meme-gallery-akash.firebaseapp.com",
+      projectId: "meme-gallery-akash",
+      storageBucket: "meme-gallery-akash.appspot.com",
+      messagingSenderId: "825150510578",
+      appId: "1:825150510578:web:5a7362613275a07b9b076b",
+      measurementId: "G-VFEXKK0CEZ"
+    };
 
 
     const app = initializeApp(firebaseConfig);
@@ -66,23 +69,31 @@
 
     const loginForm = document.getElementById('loginForm');
 
-    loginForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-        const email = loginForm.querySelector('#inputEmail').value;
-        const password = loginForm.querySelector('#inputPassword').value;
+    loginForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      const email = loginForm.querySelector('#inputEmail').value;
+      const password = loginForm.querySelector('#inputPassword').value;
 
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                console.log('User logged in:', user);
-                // Redirect the user to the home page
-                window.location.href = 'home.html';
-            })
-            .catch((error) => {
-                console.error('Login error:', error.message);
-            });
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log('User logged in:', user);
+          // You can redirect the user to the desired page after login
+        })
+        .catch((error) => {
+          alert(error.message);
+          console.error('Login error:', error.message);
+        });
     });
-</script>
+
+    // Fill email field if provided in the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const emailParam = urlParams.get('email');
+    if (emailParam) {
+      document.getElementById('inputEmail').value = decodeURIComponent(emailParam);
+    }
+  </script>
 
 </body>
+
 </html>

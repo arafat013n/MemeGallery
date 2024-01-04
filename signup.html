@@ -1,97 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-y5o6v0MlaR6FtHF8XxMme6fKlRfusZDkQ5tr5dNesAa0IePLZ6eL7XaVARM92ng8" crossorigin="anonymous">
-    
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .signup-container {
-            margin-top: 100px;
-        }
-    </style>
-    
-    <title>Signup for Meme Gallery</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <title>Meme Gallery - Signup</title>
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin-top: 50px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      background-color: white;
+      border-radius: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input.form-control {
+      border-radius: 5px;
+    }
+
+    .form-check-label {
+      font-weight: normal;
+    }
+
+    button.btn-primary {
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      cursor: pointer;
+      width: 100%;
+      /* Make the button full-width */
+    }
+
+    button.btn-primary:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="container signup-container">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h2 class="text-center"><i class="fas fa-user-plus"></i> Signup for Meme Gallery</h2>
-                    <form id="signupForm">
-                        <div class="form-group">
-                            <label for="inputEmail"><i class="fas fa-at"></i> User Email</label>
-                            <input type="email" class="form-control" id="inputEmail" placeholder="Enter your email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputPassword"><i class="fas fa-key"></i> Password</label>
-                            <input type="password" class="form-control" id="inputPassword" placeholder="Enter your password" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="confirmPassword"><i class="fas fa-key"></i> Confirm Password</label>
-                            <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm your password" required>
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="termsCheck" required>
-                            <label class="form-check-label" for="termsCheck">I accept the <a href="#">terms and conditions</a></label>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-user-plus"></i> Signup</button>
-                    </form>
-                    <p class="text-center mt-3">Already have an account? <a href="login.html">Login now</a></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Meme Gallery</a>
+    <!-- You can add more navigation items if needed -->
+  </nav>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <div class="container">
+    <h2 class="text-center mb-4">Signup to Meme Gallery</h2>
+    <form id="signupForm">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Your Name" required>
+      </div>
 
-<!-- Firebase configuration and authentication -->
-<script type="module">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Your Email Address" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
+      </div>
+
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="acceptTerms" required>
+        <label class="form-check-label" for="acceptTerms">I accept the terms and conditions</label>
+      </div>
+
+      <button type="button" class="btn btn-primary" onclick="signup()">Sign Up</button>
+    </form>
+    <p class="mt-3 text-center">Already have an account? <a href="login.html">Login now</a></p>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- Firebase configuration and authentication -->
+  <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getAuth, createUserWithEmailAndPassword, fetchSignInMethodsForEmail } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
     const firebaseConfig = {
-  apiKey: "AIzaSyBVAg2Im_sN0oFDdOd9FOuVz0x8nPDVWDI",
-  authDomain: "meme-gallery-akash.firebaseapp.com",
-  projectId: "meme-gallery-akash",
-  storageBucket: "meme-gallery-akash.appspot.com",
-  messagingSenderId: "825150510578",
-  appId: "1:825150510578:web:5a7362613275a07b9b076b",
-  measurementId: "G-VFEXKK0CEZ"
-};
-
+      apiKey: "AIzaSyBVAg2Im_sN0oFDdOd9FOuVz0x8nPDVWDI",
+      authDomain: "meme-gallery-akash.firebaseapp.com",
+      projectId: "meme-gallery-akash",
+      storageBucket: "meme-gallery-akash.appspot.com",
+      messagingSenderId: "825150510578",
+      appId: "1:825150510578:web:5a7362613275a07b9b076b",
+      measurementId: "G-VFEXKK0CEZ"
+    };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth();
 
-    const signupForm = document.getElementById('signupForm');
+    async function signup() {
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const acceptTerms = document.getElementById('acceptTerms').checked;
 
-    signupForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-        const email = signupForm.querySelector('#inputEmail').value;
-        const password = signupForm.querySelector('#inputPassword').value;
+      // Check if the email already exists
+      const signInMethods = await fetchSignInMethodsForEmail(auth, email);
 
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                console.log('User signed up:', user);
+      if (signInMethods.length > 0) {
+        // Email already exists, show a popup/notification
+        alert('Email already exists. Please use a different email.');
+        return;
+      }
 
-                // Redirect to login page with email filled
-                window.location.href = `login.html?email=${encodeURIComponent(email)}`;
-            })
-            .catch((error) => {
-                console.error('Signup error:', error.message);
-            });
-    });
-</script>
+      // Continue with account creation if email is not found and other conditions are met
+      if (password !== confirmPassword) {
+        // Passwords do not match, show a popup/notification
+        alert('Passwords do not match. Please check your password.');
+        return;
+      }
+
+      if (!acceptTerms) {
+        // Terms and conditions not accepted, show a popup/notification
+        alert('Please accept the terms and conditions.');
+        return;
+      }
+
+      // Continue with account creation
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Handle successful signup
+          console.log('User signed up:', userCredential.user);
+          // You can redirect the user to a different page or perform additional actions here
+        })
+        .catch((error) => {
+          // Handle errors during signup
+          console.error('Signup error:', error.message);
+        });
+    }
+  </script>
 
 </body>
+
 </html>
