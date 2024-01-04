@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Add your styles here */
+        .meme-card {
+            margin-bottom: 20px;
+        }
+    </style>
+    <title>Meme Gallery</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Meme Gallery</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="upload.html">Upload Meme</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="login.html">Login/Signup</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row" id="gallery">
+        <!-- Meme images will be displayed here dynamically -->
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Fetch free images from Lorem Picsum
+        $.ajax({
+            url: 'https://picsum.photos/v2/list?page=1&limit=10',
+            method: 'GET',
+            success: function (data) {
+                // Populate the gallery with meme images
+                data.forEach(item => {
+                    const imageUrl = item.download_url;
+                    const cardHtml = `
+                        <div class="col-md-4 meme-card">
+                            <div class="card">
+                                <img src="${imageUrl}" class="card-img-top img-fluid meme-img" alt="Meme Image">
+                                <div class="card-body">
+                                    <a href="${imageUrl}" download="meme.jpg" class="btn btn-primary btn-block">Download JPG</a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    $('#gallery').append(cardHtml);
+                });
+            },
+            error: function (error) {
+                console.log('Error fetching images:', error);
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

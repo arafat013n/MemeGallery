@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-y5o6v0MlaR6FtHF8XxMme6fKlRfusZDkQ5tr5dNesAa0IePLZ6eL7XaVARM92ng8" crossorigin="anonymous">
+    <style>
+        /* Add your styles here */
+        body {
+            background-color: #f8f9fa;
+        }
+        .reset-container {
+            margin-top: 100px;
+        }
+    </style>
+    <title>Password Reset</title>
+</head>
+<body>
+
+<div class="container reset-container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="text-center"><i class="fas fa-unlock-alt"></i> Password Reset</h2>
+                    <form>
+                        <div class="form-group">
+                            <label for="resetEmail"><i class="fas fa-at"></i> Email</label>
+                            <input type="email" class="form-control" id="resetEmail" placeholder="Enter your email" required>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-block" onclick="sendResetLink()"><i class="fas fa-envelope"></i> Send Reset Link</button>
+                    </form>
+                    <p class="text-center mt-3">Remember your password? <a href="login.html">Login here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    function sendResetLink() {
+        // Handle password reset logic here using Firebase or your preferred authentication service
+        alert("Password reset link sent to your email.");
+    }
+</script>
+
+</body>
+</html>
